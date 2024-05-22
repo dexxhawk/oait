@@ -1,0 +1,48 @@
+-- SELECT v.video_id, v.title, a.popularity
+-- FROM video v
+-- JOIN analytics a ON v.analytics_id = a.analytics_id
+-- ORDER BY a.popularity DESC
+-- LIMIT 10;
+
+-- SELECT playlist_id, title, duration
+-- FROM playlist
+-- ORDER BY duration DESC
+-- LIMIT 1;
+
+-- SELECT u.user_id, u.login, COUNT(c.comment_id) AS total_comments
+-- FROM "User" u
+-- JOIN user_comment uc ON u.user_id = uc.user_id
+-- JOIN "Comment" c ON uc.comment_id = c.comment_id
+-- GROUP BY u.user_id, u.login
+-- ORDER BY total_comments DESC
+-- LIMIT 1;
+
+-- SELECT DISTINCT u.user_id, u.login
+-- FROM "User" u
+-- JOIN User_Video uv ON u.user_id = uv.user_id
+-- JOIN Video v ON uv.video_id = v.video_id
+-- WHERE v.Creation_date IN (
+--     SELECT Creation_date
+--     FROM Video
+--     ORDER BY Creation_date DESC
+--     LIMIT 10
+-- ) AND v.Visibility_status > 0;
+
+-- SELECT u.login, COUNT(uc.comment_id) AS total_comments
+-- FROM "User" u
+-- JOIN user_video uv ON u.user_id = uv.user_id
+-- JOIN video v ON uv.video_id = v.video_id
+-- JOIN video_comment vc ON v.video_id = vc.video_id
+-- JOIN "Comment" c ON vc.comment_id = c.comment_id
+-- JOIN user_comment uc ON c.comment_id = uc.comment_id
+-- WHERE v.visibility_status = 1
+--       AND u.user_id IN (
+--           SELECT uv.user_id
+--           FROM user_video uv
+--           JOIN video v ON uv.video_id = v.video_id
+--           WHERE v.visibility_status = 1
+--           GROUP BY uv.user_id
+--           HAVING COUNT(uv.video_id) > 1
+--       )
+-- GROUP BY u.user_id, u.login
+-- HAVING COUNT(uc.comment_id) > 1;
